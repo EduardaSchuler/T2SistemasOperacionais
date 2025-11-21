@@ -1,0 +1,1 @@
+enum Segment { TEXT, DATA, BSS, STACK, UNKNOWN }
