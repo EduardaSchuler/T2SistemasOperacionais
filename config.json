@@ -1,0 +1,10 @@
+{
+  "tlbEntriesBits": 4,
+  "virtualAddrBits": 16,
+  "physicalAddrBits": 14,
+  "pageSizeBits": 8,
+  "pageTableLevels": 2,
+  "textBits": 12,
+  "dataBits": 12,
+  "stackBits": 12
+}

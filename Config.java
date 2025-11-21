@@ -1,3 +1,6 @@
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 public class Config {
     public int tlbEntriesBits;
     public int virtualAddrBits;
@@ -19,11 +22,12 @@ public class Config {
 
     public static Config fromJson(String json) {
         Config c = new Config();
-        json = json.replaceAll("[{}\s]", "");
-        for (String kv : json.split(",")) {
-            String[] p = kv.split(":");
-            String k = p[0];
-            long v = Long.parseLong(p[1]);
+        // Use a small regex to reliably extract numeric fields instead of fragile string ops
+        Pattern p = Pattern.compile("\"(\\w+)\"\\s*:\\s*(\\d+)");
+        Matcher m = p.matcher(json);
+        while (m.find()) {
+            String k = m.group(1);
+            long v = Long.parseLong(m.group(2).trim());
             switch (k) {
                 case "tlbEntriesBits": c.tlbEntriesBits = (int)v; break;
                 case "virtualAddrBits": c.virtualAddrBits = (int)v; break;

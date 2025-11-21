@@ -21,12 +21,12 @@ public class Simulator {
     public void run(List<Long> addrs, String outPath) throws Exception {
         try (PrintWriter pw = new PrintWriter(Files.newBufferedWriter(Path.of(outPath)))) {
             for (long vaddr : addrs) translate(vaddr, pw);
-            pw.println("
-            --- PAGE TABLE ---"); pt.dump(pw);
-            pw.println("
-            --- PHYSICAL MEMORY ---"); pm.dump(pw);
-            pw.println("
-            --- TLB ---"); tlb.dump(pw);
+            pw.println("-- PAGE TABLE ---");
+            pt.dump(pw);
+            pw.println("--- PHYSICAL MEMORY ---");
+            pm.dump(pw);
+            pw.println("--- TLB ---"); 
+            tlb.dump(pw);
         }
     }
 
