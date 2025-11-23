@@ -2,16 +2,18 @@ import java.util.Map;
 import java.util.HashMap;
 import java.io.PrintWriter;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.io.PrintWriter;
-
 public class PageTable {
 
     private final int levels;
+    private final int vpnBits;
+    private final int[] bitsPerLevel;
     private final Map<Integer, Object> root = new HashMap<>();
 
-    public PageTable(int l) { levels = l; }
+    public PageTable(int l, int vpnBits) {
+        levels = l;
+        this.vpnBits = Math.max(0, vpnBits);
+        this.bitsPerLevel = computeBitsPerLevel(this.vpnBits, levels);
+    }
 
     @SuppressWarnings("unchecked")
     public Integer lookup(long vpn) {
@@ -53,24 +55,53 @@ public class PageTable {
         return cur.isEmpty();
     }
 
-    public void dump(PrintWriter pw) { dumpRec(root, pw, ""); }
+    public void dump(PrintWriter pw) { dumpRec(root, pw, 0, 0L); }
 
     @SuppressWarnings("unchecked")
-    private void dumpRec(Map<Integer, Object> cur, PrintWriter pw, String p) {
+    private void dumpRec(Map<Integer, Object> cur, PrintWriter pw, int depth, long accVpn) {
         for (var e : cur.entrySet()) {
-            if (e.getValue() instanceof Integer)
-                pw.println(p + "[" + e.getKey() + "] -> frame=" + e.getValue());
-            else
-                dumpRec((Map<Integer, Object>) e.getValue(), pw, p + " ");
+            int key = (Integer) e.getKey();
+            Object val = e.getValue();
+            if (depth >= levels - 1) {
+                if (val instanceof Integer) {
+                    long fullVpn = (accVpn << bitsPerLevel[depth]) | (key & ((1 << bitsPerLevel[depth]) - 1));
+                    pw.println("VPN=" + fullVpn + " -> frame=" + val);
+                } else if (val instanceof Map) {
+                    dumpRec((Map<Integer, Object>) val, pw, depth + 1, (accVpn << bitsPerLevel[depth]) | key);
+                }
+            } else {
+                if (val instanceof Map) {
+                    long newAcc = (accVpn << bitsPerLevel[depth]) | (key & ((1 << bitsPerLevel[depth]) - 1));
+                    dumpRec((Map<Integer, Object>) val, pw, depth + 1, newAcc);
+                } else if (val instanceof Integer) {
+                    // Unexpected: an integer at non-leaf depth; still reconstruct a vpn using zeros for remaining levels
+                    long fullVpn = (accVpn << bitsPerLevel[depth]) | (key & ((1 << bitsPerLevel[depth]) - 1));
+                    for (int d = depth + 1; d < levels; d++) fullVpn <<= bitsPerLevel[d];
+                    pw.println("VPN=" + fullVpn + " -> frame=" + val);
+                }
+            }
         }
     }
 
     private int[] split(long vpn) {
-        int baseBits = 10;
         int[] out = new int[levels];
         for (int i = levels - 1; i >= 0; i--) {
-            out[i] = (int) (vpn & ((1 << baseBits) - 1));
-            vpn >>= baseBits;
+            int b = bitsPerLevel[i];
+            int mask = b == 0 ? 0 : ((1 << b) - 1);
+            out[i] = (int) (vpn & mask);
+            if (b > 0) vpn >>= b;
+        }
+        return out;
+    }
+
+    private int[] computeBitsPerLevel(int vpnBits, int levels) {
+        int[] out = new int[levels];
+        if (levels <= 0) return out;
+        int base = vpnBits / levels;
+        int rem = vpnBits % levels;
+        // distribute remainder to the least-significant levels (rightmost)
+        for (int i = 0; i < levels; i++) {
+            out[i] = base + (i >= levels - rem ? 1 : 0);
         }
         return out;
     }
