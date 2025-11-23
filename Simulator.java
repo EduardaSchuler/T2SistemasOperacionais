@@ -13,7 +13,7 @@ public class Simulator {
     public Simulator(Config c) {
         cfg = c;
         tlb = new TLB(cfg.tlbEntries);
-        pt = new PageTable(cfg.pageTableLevels);
+        pt = new PageTable(cfg.pageTableLevels, (int)(cfg.virtualAddrBits - cfg.pageSizeBits));
         pm = new PhysicalMemory(cfg.numFrames);
     }
 

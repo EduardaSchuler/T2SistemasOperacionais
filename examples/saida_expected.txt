@@ -1,0 +1,88 @@
+V=0 -> P=0 frame=0 TLB=MISS
+V=4096 -> P=256 frame=1 TLB=MISS
+V=8192 -> P=512 frame=2 TLB=MISS
+V=16384 -> P=768 frame=3 TLB=MISS
+V=32768 -> P=1024 frame=4 TLB=MISS
+V=65535 -> P=1535 frame=5 TLB=MISS
+V=12345 -> P=1593 frame=6 TLB=MISS
+-- PAGE TABLE ---
+VPN=0 -> frame=0
+VPN=16 -> frame=1
+VPN=32 -> frame=2
+VPN=48 -> frame=6
+VPN=64 -> frame=3
+VPN=128 -> frame=4
+VPN=255 -> frame=5
+--- PHYSICAL MEMORY ---
+Frame 0 -> vpn=0 last=1
+Frame 1 -> vpn=16 last=2
+Frame 2 -> vpn=32 last=3
+Frame 3 -> vpn=64 last=4
+Frame 4 -> vpn=128 last=5
+Frame 5 -> vpn=255 last=6
+Frame 6 -> vpn=48 last=7
+Frame 7 -> vpn=-1 last=-1
+Frame 8 -> vpn=-1 last=-1
+Frame 9 -> vpn=-1 last=-1
+Frame 10 -> vpn=-1 last=-1
+Frame 11 -> vpn=-1 last=-1
+Frame 12 -> vpn=-1 last=-1
+Frame 13 -> vpn=-1 last=-1
+Frame 14 -> vpn=-1 last=-1
+Frame 15 -> vpn=-1 last=-1
+Frame 16 -> vpn=-1 last=-1
+Frame 17 -> vpn=-1 last=-1
+Frame 18 -> vpn=-1 last=-1
+Frame 19 -> vpn=-1 last=-1
+Frame 20 -> vpn=-1 last=-1
+Frame 21 -> vpn=-1 last=-1
+Frame 22 -> vpn=-1 last=-1
+Frame 23 -> vpn=-1 last=-1
+Frame 24 -> vpn=-1 last=-1
+Frame 25 -> vpn=-1 last=-1
+Frame 26 -> vpn=-1 last=-1
+Frame 27 -> vpn=-1 last=-1
+Frame 28 -> vpn=-1 last=-1
+Frame 29 -> vpn=-1 last=-1
+Frame 30 -> vpn=-1 last=-1
+Frame 31 -> vpn=-1 last=-1
+Frame 32 -> vpn=-1 last=-1
+Frame 33 -> vpn=-1 last=-1
+Frame 34 -> vpn=-1 last=-1
+Frame 35 -> vpn=-1 last=-1
+Frame 36 -> vpn=-1 last=-1
+Frame 37 -> vpn=-1 last=-1
+Frame 38 -> vpn=-1 last=-1
+Frame 39 -> vpn=-1 last=-1
+Frame 40 -> vpn=-1 last=-1
+Frame 41 -> vpn=-1 last=-1
+Frame 42 -> vpn=-1 last=-1
+Frame 43 -> vpn=-1 last=-1
+Frame 44 -> vpn=-1 last=-1
+Frame 45 -> vpn=-1 last=-1
+Frame 46 -> vpn=-1 last=-1
+Frame 47 -> vpn=-1 last=-1
+Frame 48 -> vpn=-1 last=-1
+Frame 49 -> vpn=-1 last=-1
+Frame 50 -> vpn=-1 last=-1
+Frame 51 -> vpn=-1 last=-1
+Frame 52 -> vpn=-1 last=-1
+Frame 53 -> vpn=-1 last=-1
+Frame 54 -> vpn=-1 last=-1
+Frame 55 -> vpn=-1 last=-1
+Frame 56 -> vpn=-1 last=-1
+Frame 57 -> vpn=-1 last=-1
+Frame 58 -> vpn=-1 last=-1
+Frame 59 -> vpn=-1 last=-1
+Frame 60 -> vpn=-1 last=-1
+Frame 61 -> vpn=-1 last=-1
+Frame 62 -> vpn=-1 last=-1
+Frame 63 -> vpn=-1 last=-1
+--- TLB ---
+VPN=0 -> frame=0
+VPN=16 -> frame=1
+VPN=32 -> frame=2
+VPN=64 -> frame=3
+VPN=128 -> frame=4
+VPN=255 -> frame=5
+VPN=48 -> frame=6
