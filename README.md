@@ -65,7 +65,7 @@ Exemplo:
 ## Decisões e observações de implementação
 
 - A divisão de bits do VPN entre níveis de tabela de páginas é calculada dinamicamente (distribui os bits do VPN entre os níveis de forma equilibrada). Isso evita o uso de um valor fixo e torna a implementação compatível com diferentes tamanhos de endereços.
-- A implementação atual usa `LinkedHashMap` com ordem de inserção para a TLB (FIFO). Se desejar LRU também na TLB, isso pode ser alterado facilmente configurando `LinkedHashMap` em modo access-order.
+- A implementação atual usa `LinkedHashMap` com ordem de inserção para a TLB (FIFO). Se desejarmos LRU também na TLB, isso pode ser alterado na `LinkedHashMap` em modo access-order.
 - `Config.fromJson` utiliza um parser simples para campos numéricos; o arquivo `config.json` deve seguir o formato mostrado no exemplo.
 
 ## Exemplos
